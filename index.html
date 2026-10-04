@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#0E3A4C">
+  <title>AquaQuest — Explore · Navigate · Discover</title>
+
+  <!-- PWA -->
+  <meta name="description" content="Join the citizen science movement for water health — observe, report, and protect our aquatic ecosystems.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AquaQuest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="apple-touch-icon" href="assets/logo-icon.jpg">
+  <link rel="icon" type="image/jpeg" href="assets/logo-icon.jpg">
+
+  <!-- STYLESHEETS -->
+  <link rel="stylesheet" href="css/palette.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="css/profile-view.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+
+
+  <!-- LEAFLET MAP (FREE) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- LIBRARIES -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- FIXED TOP NAV                                -->
+<!-- ============================================ -->
+<nav class="top-nav" id="topNav">
+  <div class="top-nav-left">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <div class="brand">
+      <img src="assets/logo.png" alt="" class="brand-logo">
+      <span class="brand-name">AquaQuest</span>
+    </div>
+  </div>
+  <div class="top-nav-right">
+    <i class="fas fa-bell notif-icon" id="notifIcon" role="button" aria-label="Notifications" tabindex="0"></i>
+    <i class="fas fa-search search-icon" id="searchIcon" role="button" aria-label="Search" tabindex="0" style="display:none;"></i>
+  </div>
+
+  <!-- SEARCH EXPANSION -->
+  <div class="nav-search-wrap" id="navSearchWrap">
+    <button class="nav-search-back" id="navSearchBack" aria-label="Close search">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="nav-search-input-wrap">
+      <i class="fas fa-search search-input-icon"></i>
+      <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search sites, stories, people..." autocomplete="off">
+      <button class="nav-search-clear" id="navSearchClear" aria-label="Clear">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================ -->
+<!-- PAGES                                        -->
+<!-- ============================================ -->
+<section class="page active" id="page-home"></section>
+<section class="page" id="page-map"></section>
+<section class="page" id="page-sites"></section>
+<section class="page" id="page-site-detail"></section>
+<section class="page" id="page-observe"></section>
+<section class="page" id="page-feed"></section>
+<section class="page" id="page-learn"></section>
+<section class="page" id="page-saved"></section>
+<section class="page" id="page-actions"></section>
+<section class="page" id="page-challenge-detail"></section>
+<section class="page" id="page-contribution-flow"></section>
+<section class="page" id="page-reports"></section>
+<section class="page" id="page-profile"></section>
+<section class="page" id="page-user-profile"></section>
+
+
+<!-- ============================================ -->
+<!-- BOTTOM NAVIGATION — 5 items                  -->
+<!-- ============================================ -->
+<nav class="bottom-nav" id="bottomNav">
+  <a href="#" class="nav-item active" data-nav="home">
+    <i class="fas fa-compass"></i>
+    <span>Explore</span>
+  </a>
+  <a href="#" class="nav-item" data-nav="map">
+    <i class="fas fa-map-location-dot"></i>
+    <span>Map</span>
+  </a>
+  <button class="nav-item nav-item-add" id="navAddBtn" aria-label="Add">
+    <span class="nav-add-btn">
+      <i class="fas fa-plus"></i>
+    </span>
+  </button>
+  <a href="#" class="nav-item" data-nav="feed">
+    <i class="fas fa-water"></i>
+    <span>Stories</span>
+  </a>
+  <a href="#" class="nav-item" data-nav="profile">
+    <i class="fas fa-user"></i>
+    <span>Me</span>
+  </a>
+</nav>
+
+<!-- ============================================ -->
+<!-- ACTION SHEET (for + button)                   -->
+<!-- ============================================ -->
+<div class="action-sheet" id="quickActionSheet">
+  <div class="action-sheet-backdrop" onclick="closeQuickActionSheet()"></div>
+  <div class="action-sheet-panel">
+    <div class="action-sheet-handle"></div>
+    <p class="action-sheet-title">What would you like to do?</p>
+
+    <button class="action-sheet-item" onclick="quickActionObserve()">
+      <div class="action-sheet-icon" style="background: var(--pc-accent-soft); color: var(--pc-accent);">
+        <i class="fas fa-eye"></i>
+      </div>
+      <div class="action-sheet-info">
+        <p class="action-sheet-label">Record Observation</p>
+        <p class="action-sheet-sub">Log what you see at a waterbody</p>
+      </div>
+      <i class="fas fa-chevron-right action-sheet-chevron"></i>
+    </button>
+
+    <button class="action-sheet-item" onclick="quickActionReport()">
+      <div class="action-sheet-icon" style="background: var(--pc-danger-soft); color: var(--pc-danger);">
+        <i class="fas fa-triangle-exclamation"></i>
+      </div>
+      <div class="action-sheet-info">
+        <p class="action-sheet-label">Report Concern</p>
+        <p class="action-sheet-sub">Pollution, litter, dead fish &amp; more</p>
+      </div>
+      <i class="fas fa-chevron-right action-sheet-chevron"></i>
+    </button>
+
+    <button class="action-sheet-item" onclick="quickActionStory()">
+      <div class="action-sheet-icon" style="background: var(--pc-purple-soft); color: var(--pc-purple);">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <div class="action-sheet-info">
+        <p class="action-sheet-label">Share a Story</p>
+        <p class="action-sheet-sub">Photo, wildlife sighting or learning</p>
+      </div>
+      <i class="fas fa-chevron-right action-sheet-chevron"></i>
+    </button>
+
+    <button class="action-sheet-cancel" onclick="closeQuickActionSheet()">Cancel</button>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SIDE DRAWER                                  -->
+<!-- ============================================ -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+<aside class="side-drawer" id="sideDrawer" aria-hidden="true">
+  <div class="drawer-user">
+    <div class="drawer-avatar" id="drawerAvatar">?</div>
+    <div class="drawer-user-info">
+      <p class="drawer-user-name" id="drawerUserName">Welcome</p>
+      <p class="drawer-user-email" id="drawerUserEmail">Sign in to continue</p>
+    </div>
+  </div>
+
+  <div class="drawer-signin-banner" id="drawerSigninBanner">
+    <p><i class="fas fa-lock-open"></i> Sign in to track your impact</p>
+    <button class="drawer-signin-btn" id="drawerSigninBtn">Sign In</button>
+  </div>
+
+  <div class="drawer-section">
+    <p class="drawer-section-label">Explore</p>
+    <button class="drawer-item" data-drawer-action="sites">
+      <i class="fas fa-water"></i>
+      <span>Explore Waters</span>
+      <span class="drawer-badge" id="drawerSitesCount">0</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item" data-drawer-action="map">
+      <i class="fas fa-map-location-dot"></i>
+      <span>Community Map</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item" data-drawer-action="actions">
+      <i class="fas fa-seedling"></i>
+      <span>Community Actions</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item" data-drawer-action="learn">
+      <i class="fas fa-graduation-cap"></i>
+      <span>Learn</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item" data-drawer-action="saved">
+      <i class="fas fa-bookmark"></i>
+      <span>Saved Posts</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+  </div>
+
+  <div class="drawer-section">
+    <p class="drawer-section-label">My Activity</p>
+    <button class="drawer-item" data-drawer-action="reports">
+      <i class="fas fa-flag"></i>
+      <span>My Reports</span>
+      <span class="drawer-badge" id="drawerReportsCount">0</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item" data-drawer-action="notifications">
+      <i class="fas fa-bell"></i>
+      <span>Notifications</span>
+      <span class="drawer-badge" id="drawerNotifCount">0</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+  </div>
+
+  <div class="drawer-section">
+    <p class="drawer-section-label">Preferences</p>
+    <button class="drawer-item" data-drawer-action="settings">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <div class="drawer-item drawer-toggle-item">
+      <i class="fas fa-moon"></i>
+      <span>Dark Mode</span>
+      <label class="drawer-switch" onclick="event.stopPropagation()">
+        <input type="checkbox" id="drawerDarkMode">
+        <span class="drawer-switch-slider"></span>
+      </label>
+    </div>
+    <button class="drawer-item" data-drawer-action="export">
+      <i class="fas fa-file-export"></i>
+      <span>Export My Data</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-item drawer-item-danger" data-drawer-action="clear">
+      <i class="fas fa-trash-alt"></i>
+      <span>Clear All Data</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+  </div>
+
+  <div class="drawer-footer">
+    <button class="drawer-item" data-drawer-action="about">
+      <i class="fas fa-info-circle"></i>
+      <span>About AquaQuest</span>
+      <i class="fas fa-chevron-right drawer-chevron"></i>
+    </button>
+    <button class="drawer-auth-btn" id="drawerAuthBtn">
+      <i class="fas fa-sign-in-alt" id="drawerAuthIcon"></i>
+      <span id="drawerAuthText">Login / Sign Up</span>
+    </button>
+    <p class="drawer-version">AquaQuest v1.0 · 2026</p>
+  </div>
+</aside>
+
+<!-- ============================================ -->
+<!-- MODALS                                       -->
+<!-- ============================================ -->
+<div class="modal" id="sosModal"><div class="modal-content"></div></div>
+<div class="modal" id="firstaidModal"><div class="modal-content"></div></div>
+<div class="modal" id="quickViewModal"><div class="modal-content"></div></div>
+<div class="modal" id="wishlistModal"><div class="modal-content modal-large"></div></div>
+<div class="modal" id="trackingModal"><div class="modal-content"></div></div>
+<div class="modal" id="loginModal"><div class="modal-content"></div></div>
+<div class="modal" id="siteModal"><div class="modal-content"></div></div>
+<div class="modal" id="observationModal"><div class="modal-content"></div></div>
+<div class="modal" id="reportModal"><div class="modal-content"></div></div>
+<div class="modal" id="storyModal"><div class="modal-content"></div></div>
+<div class="modal" id="commentModal"><div class="modal-content"></div></div>  <!-- ⭐ এই line add করো -->
+<div class="modal" id="editProfileModal"><div class="modal-content"></div></div>
+<div class="modal" id="notifModal"><div class="modal-content modal-large"></div></div>
+<div class="modal" id="aboutModal"><div class="modal-content"></div></div>
+<div class="modal" id="expertProfileModal"><div class="modal-content"></div></div>
+<div class="modal" id="actionDetailModal"><div class="modal-content"></div></div>
+<div class="modal" id="learnArticleModal"><div class="modal-content"></div></div>
+<div class="modal modal-stacked" id="reportDetailModal"><div class="modal-content"></div></div>
+
+<!-- ONBOARDING -->
+<div id="onboardingModal"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-message" id="toastMessage"></span>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- ============================================ -->
+<!-- SCRIPTS — Load order matters!                 -->
+<!-- ============================================ -->
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 1: CORE (no dependencies)             -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/core/storage.js"></script>
+<script src="js/core/mode.js"></script>
+<script src="js/core/theme.js"></script>
+<script src="js/core/toast.js"></script>
+<script src="js/app.js"></script>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 2: STATIC DATA (never user-generated) -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/data/sites.js"></script>
+<script src="js/data/challenges.js"></script>
+<script src="js/data/learn-topics.js"></script>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 3: DEMO (isolated showcase data)      -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/demo-data.js"></script>
+<script src="js/demo.js"></script>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 4: SERVICES + UI SHELL                -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/services/api.js"></script>
+<script src="js/ui/skeleton.js"></script>
+<script src="js/ui/drawer.js"></script>
+<script src="js/ui/onboarding.js"></script>
+<script src="js/pwa.js"></script>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 5: FEATURES (user data logic)         -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/features/observations.js"></script>
+<script src="js/features/contributions.js"></script>
+<script src="js/features/gamification.js"></script>
+<script src="js/features/notifications.js"></script>
+<script src="js/features/social.js"></script>
+<script src="js/features/monitoring.js"></script>
+<script src="js/features/site-creation.js"></script>
+<script src="js/features/challenge-submission.js"></script>
+<script src="js/features/charts.js"></script>
+<script src="js/features/search.js"></script>
+<script src="js/features/navigation.js"></script>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LAYER 6: PAGES (render functions)           -->
+<!-- ═══════════════════════════════════════════ -->
+<script src="js/pages/home.js"></script>
+<script src="js/pages/map.js"></script>
+<script src="js/pages/sites.js"></script>
+<script src="js/pages/site-detail.js"></script>
+<script src="js/pages/observe.js"></script>
+<script src="js/pages/feed.js"></script>
+<script src="js/pages/learn.js"></script>
+<script src="js/pages/saved.js"></script>
+<script src="js/pages/actions.js"></script>
+<script src="js/pages/challenge-detail.js"></script>
+<script src="js/pages/activity-flow.js"></script>
+<script src="js/pages/contribution-detail.js"></script>
+<script src="js/pages/report.js"></script>
+<script src="js/pages/reports.js"></script>
+<script src="js/pages/profile.js"></script>
+<script src="js/pages/profile-view.js"></script>
+  
+</body>
+</html>
