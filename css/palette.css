@@ -1,0 +1,149 @@
+/* ============================================================ */
+/* AQUAQUEST v1.0 — PALETTE                                      */
+/* Water Health · Citizen Science · Ocean Theme                  */
+/* ============================================================ */
+
+/* ============================================================ */
+/* LIGHT MODE — Fresh Ocean                                     */
+/* ============================================================ */
+:root {
+  /* ---------- BACKGROUNDS ---------- */
+  --pc-bg:              #EEF7FB;
+  --pc-card:            #FFFFFF;
+  --pc-paper:           #E0EFF5;
+  --pc-hero-bg:         #EEF7FB;
+  --pc-input-bg:        #F7FCFE;
+
+  /* ---------- NAVIGATION (DEEP OCEAN) ---------- */
+  --pc-nav-bg:          #0E3A4C;
+  --pc-topbar-bg:       #EEF7FB;
+  --pc-topbar-home:     #EEF7FB;
+  --pc-nav-active:      #4DD0E1;
+  --pc-nav-inactive:    #6B9CB0;
+
+  /* ---------- PRIMARY (DEEP OCEAN) ---------- */
+  --pc-primary:         #0E3A4C;
+  --pc-primary-hover:   #072A38;
+  --pc-primary-light:   #CDE8F2;
+
+  /* ---------- ACCENT (CYAN LAGOON) ---------- */
+  --pc-accent:          #0891B2;
+  --pc-accent-light:    #22D3EE;
+  --pc-accent-soft:     #CFFAFE;
+  --pc-accent-hover:    #0E7490;
+
+  /* ---------- SECONDARY (SKY / SAND) ---------- */
+  --pc-brown:           #0284C7;
+  --pc-brown-dark:      #0369A1;
+  --pc-caramel:         #FBBF24;
+  --pc-tan:             #BAE6FD;
+  --pc-sand:            #CFEAF5;
+
+  /* ---------- SEMANTIC ---------- */
+  --pc-success:         #10B981;
+  --pc-success-soft:    #D1FAE5;
+  --pc-warning:         #F59E0B;
+  --pc-warning-soft:    #FEF3C7;
+  --pc-danger:          #EF4444;
+  --pc-danger-soft:     #FEE2E2;
+  --pc-info:            #3B82F6;
+  --pc-info-soft:       #DBEAFE;
+  --pc-pink:            #F472B6;
+  --pc-pink-soft:       #FCE7F3;
+  --pc-purple:          #8B5CF6;
+  --pc-purple-soft:     #EDE9FE;
+
+  /* ---------- WATER QUALITY GRADES ---------- */
+  --aq-excellent:       #10B981;   /* Green - pristine */
+  --aq-good:            #22C55E;   /* Light green */
+  --aq-moderate:        #F59E0B;   /* Amber */
+  --aq-poor:            #F97316;   /* Orange */
+  --aq-critical:        #EF4444;   /* Red */
+
+  /* ---------- TEXT ---------- */
+  --pc-text:            #0C2D3E;
+  --pc-text-2:          #3B6479;
+  --pc-text-muted:      #7FA3B5;
+  --pc-placeholder:     #A8C4D2;
+  --pc-text-on-dark:    #E0F7FA;
+
+  /* ---------- BORDERS & SHADOWS ---------- */
+  --pc-border:          #CFEAF5;
+  --pc-border-light:    #E0EFF5;
+  --pc-shadow-sm:       0 2px 8px rgba(14, 58, 76, 0.08);
+  --pc-shadow-md:       0 4px 15px rgba(14, 58, 76, 0.10);
+  --pc-shadow-lg:       0 8px 24px rgba(14, 58, 76, 0.14);
+  --pc-shadow-glow:     0 0 24px rgba(34, 211, 238, 0.35);
+
+  /* ---------- LAYOUT ---------- */
+  --pc-topnav-height:   60px;
+  --pc-bottomnav-height: 68px;
+  --pc-page-padding:    20px;
+  --pc-card-padding:    18px;
+  --pc-radius:          20px;
+  --pc-radius-sm:       12px;
+}
+
+/* ============================================================ */
+/* DARK MODE — Deep Ocean                                       */
+/* ============================================================ */
+body.dark-mode {
+  --pc-bg:              #061E2A;
+  --pc-card:            #0E2E40;
+  --pc-paper:           #0A2436;
+  --pc-hero-bg:         #061E2A;
+  --pc-input-bg:        #0E2E40;
+
+  --pc-nav-bg:          #0A2436;
+  --pc-topbar-bg:       #061E2A;
+  --pc-topbar-home:     #061E2A;
+  --pc-nav-active:      #4DD0E1;
+  --pc-nav-inactive:    #5A7D91;
+
+  --pc-primary:         #22D3EE;
+  --pc-primary-hover:   #67E8F9;
+  --pc-primary-light:   #0A2436;
+
+  --pc-accent:          #22D3EE;
+  --pc-accent-light:    #67E8F9;
+  --pc-accent-soft:     #0A2436;
+  --pc-accent-hover:    #4DD0E1;
+
+  --pc-brown:           #38BDF8;
+  --pc-brown-dark:      #7DD3FC;
+  --pc-caramel:         #FBBF24;
+  --pc-tan:             #1E3A4C;
+  --pc-sand:            #163447;
+
+  --pc-success:         #34D399;
+  --pc-success-soft:    #064E3B;
+  --pc-warning:         #FCD34D;
+  --pc-warning-soft:    #422006;
+  --pc-danger:          #F87171;
+  --pc-danger-soft:     #450A0A;
+  --pc-info:            #60A5FA;
+  --pc-info-soft:       #1E3A8A;
+  --pc-pink:            #F9A8D4;
+  --pc-pink-soft:       #500724;
+  --pc-purple:          #A78BFA;
+  --pc-purple-soft:     #3F1F6B;
+
+  --aq-excellent:       #34D399;
+  --aq-good:            #4ADE80;
+  --aq-moderate:        #FCD34D;
+  --aq-poor:            #FB923C;
+  --aq-critical:        #F87171;
+
+  --pc-text:            #E0F7FA;
+  --pc-text-2:          #A8D5E2;
+  --pc-text-muted:      #5A7D91;
+  --pc-placeholder:     #3B6479;
+  --pc-text-on-dark:    #E0F7FA;
+
+  --pc-border:          #1E3A4C;
+  --pc-border-light:    #163447;
+  --pc-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.4);
+  --pc-shadow-md:       0 4px 15px rgba(0, 0, 0, 0.5);
+  --pc-shadow-lg:       0 8px 24px rgba(0, 0, 0, 0.6);
+  --pc-shadow-glow:     0 0 24px rgba(34, 211, 238, 0.5);
+}

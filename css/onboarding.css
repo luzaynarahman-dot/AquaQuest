@@ -1,0 +1,379 @@
+/* ============================================================ */
+/* AQUAQUEST — ONBOARDING                                        */
+/* Exact design: full-page slides with bottom-aligned content    */
+/* ============================================================ */
+
+/* ============================================================ */
+/* 1. FULL-SCREEN OVERLAY                                        */
+/* ============================================================ */
+#onboardingModal {
+  position: fixed;
+  inset: 0;
+  background: #E8F4F8;
+  z-index: 2500;
+  display: none;
+  overflow: hidden;
+}
+
+#onboardingModal.active {
+  display: block;
+}
+
+body.dark-mode #onboardingModal {
+  background: #061E2A;
+}
+
+/* ============================================================ */
+/* 2. SLIDES WRAPPER                                             */
+/* ============================================================ */
+.onboarding-slides {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.onboarding-slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: 0;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.onboarding-slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.onboarding-slide.exiting {
+  display: flex;
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+/* ============================================================ */
+/* 3. TOP IMAGE SECTION                                          */
+/* ============================================================ */
+.onboarding-image-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12vh 24px 0;
+  position: relative;
+}
+
+/* Water drop decorations */
+.onboarding-image-wrap::before,
+.onboarding-image-wrap::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 18px;
+  background: radial-gradient(circle at 50% 30%, #B8E6F0, #7DD3E8);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.onboarding-image-wrap::before {
+  top: 14vh;
+  left: 8%;
+  animation: waterFloat 4s ease-in-out infinite;
+}
+
+.onboarding-image-wrap::after {
+  top: 20vh;
+  right: 10%;
+  width: 10px;
+  height: 14px;
+  animation: waterFloat 5s ease-in-out infinite 0.5s;
+}
+
+@keyframes waterFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%      { transform: translateY(-10px) scale(1.1); opacity: 0.9; }
+}
+
+.onboarding-image {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  max-height: 44vh;
+  object-fit: contain;
+  display: block;
+  animation: onboardingImageFloat 4s ease-in-out infinite;
+}
+
+@keyframes onboardingImageFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ============================================================ */
+/* 4. BOTTOM CONTENT SECTION                                     */
+/* ============================================================ */
+.onboarding-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px 28px 40px;
+  text-align: center;
+  background: transparent;
+  gap: 0;
+}
+
+.onboarding-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0E3A4C;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin: 0 0 14px;
+  max-width: 340px;
+}
+
+body.dark-mode .onboarding-title {
+  color: #F0F9FF;
+}
+
+.onboarding-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3B6479;
+  line-height: 1.55;
+  margin: 0 0 28px;
+  max-width: 340px;
+}
+
+body.dark-mode .onboarding-desc {
+  color: #A8D5E2;
+}
+
+/* ============================================================ */
+/* 5. PRIMARY CTA — Big pill button                              */
+/* ============================================================ */
+.onboarding-btn-primary {
+  width: 100%;
+  max-width: 340px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: #0E3A4C;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 20px rgba(14, 58, 76, 0.25);
+  margin-bottom: 18px;
+}
+
+.onboarding-btn-primary:hover {
+  background: #072A38;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(14, 58, 76, 0.35);
+}
+
+.onboarding-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.onboarding-btn-primary i {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.onboarding-btn-primary:hover i {
+  transform: translateX(3px);
+}
+
+/* ============================================================ */
+/* 6. GHOST CTA — Skip / Login link                              */
+/* ============================================================ */
+.onboarding-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: #3B6479;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin: 0;
+}
+
+.onboarding-btn-ghost:hover {
+  color: #0891B2;
+}
+
+body.dark-mode .onboarding-btn-ghost {
+  color: #A8D5E2;
+}
+
+body.dark-mode .onboarding-btn-ghost:hover {
+  color: #22D3EE;
+}
+
+.onboarding-btn-ghost strong {
+  font-weight: 800;
+  color: #0E3A4C;
+}
+
+body.dark-mode .onboarding-btn-ghost strong {
+  color: #22D3EE;
+}
+
+/* ============================================================ */
+/* 7. TOP DOTS INDICATOR (optional, subtle)                      */
+/* ============================================================ */
+.onboarding-dots {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.onboarding-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(14, 58, 76, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.onboarding-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: #0E3A4C;
+}
+
+body.dark-mode .onboarding-dot {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .onboarding-dot.active {
+  background: #22D3EE;
+}
+
+/* ============================================================ */
+/* 8. BRAND LOGO — Top left corner                               */
+/* ============================================================ */
+.onboarding-brand {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.onboarding-brand img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.onboarding-brand span {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0E3A4C;
+  letter-spacing: 0.3px;
+}
+
+body.dark-mode .onboarding-brand span {
+  color: #F0F9FF;
+}
+
+/* ============================================================ */
+/* 9. RESPONSIVE                                                 */
+/* ============================================================ */
+@media (max-width: 400px) {
+  .onboarding-image-wrap {
+    padding: 10vh 20px 0;
+  }
+
+  .onboarding-image {
+    max-width: 280px;
+    max-height: 38vh;
+  }
+
+  .onboarding-content {
+    padding: 16px 22px 32px;
+  }
+
+  .onboarding-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .onboarding-desc {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .onboarding-btn-primary {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .onboarding-image {
+    max-width: 420px;
+    max-height: 50vh;
+  }
+
+  .onboarding-title {
+    font-size: 2rem;
+  }
+
+  .onboarding-desc {
+    font-size: 15px;
+  }
+}
+
+/* ============================================================ */
+/* 10. REDUCED MOTION                                            */
+/* ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-image,
+  .onboarding-image-wrap::before,
+  .onboarding-image-wrap::after {
+    animation: none;
+  }
+
+  .onboarding-slide {
+    transition: opacity 0.15s ease;
+  }
+}
