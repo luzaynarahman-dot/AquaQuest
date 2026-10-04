@@ -228,51 +228,67 @@ function attachReportHandlers() {
   const content = modal.querySelector('.modal-content');
   if (!content) return;
 
-  if (content.dataset.reportHandlersAttached === 'true') return;
-  content.dataset.reportHandlersAttached = 'true';
+  /*
+   * Attach delegated click handler only once.
+   */
+  if (content.dataset.reportHandlersAttached !== 'true') {
+    content.dataset.reportHandlersAttached = 'true';
 
-  content.addEventListener('click', (e) => {
-    /* Report type card */
-    const typeBtn = e.target.closest('[data-report-type]');
-    if (typeBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      reportState.data.type = typeBtn.dataset.reportType;
-      renderReportForm();
-      return;
-    }
+    content.addEventListener('click', (e) => {
+      /* Report type card */
+      const typeBtn = e.target.closest('[data-report-type]');
+      if (typeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
 
-    /* Report site option */
-    const siteBtn = e.target.closest('[data-report-site]');
-    if (siteBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      reportState.siteId = siteBtn.dataset.reportSite;
-      renderReportForm();
-      return;
-    }
+        reportState.data.type = typeBtn.dataset.reportType;
+        renderReportForm();
+        return;
+      }
 
-    /* Photo remove */
-    const photoRemoveBtn = e.target.closest('.report-photo-remove');
-    if (photoRemoveBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      removeReportPhoto();
-      return;
-    }
-  });
+      /* Report site option */
+      const siteBtn = e.target.closest('[data-report-site]');
+      if (siteBtn) {
+        e.preventDefault();
+        e.stopPropagation();
 
-  /* Description input — preserve value while typing */
+        reportState.siteId = siteBtn.dataset.reportSite;
+        renderReportForm();
+        return;
+      }
+
+      /* Photo remove */
+      const photoRemoveBtn = e.target.closest('.report-photo-remove');
+      if (photoRemoveBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        removeReportPhoto();
+        return;
+      }
+    });
+  }
+
+  /*
+   * Description input is recreated on every render,
+   * so attach to the CURRENT element.
+   */
   const desc = document.getElementById('reportDescription');
-  if (desc) {
+
+  if (desc && !desc.dataset.listenerAttached) {
+    desc.dataset.listenerAttached = 'true';
+
     desc.addEventListener('input', () => {
       reportState.data.description = desc.value;
     });
   }
 
-  /* Photo input */
-  /* Photo input */
-const photoInput = document.getElementById('reportPhotoInput');
+  /*
+   * Photo input is also recreated on every render.
+   * Always check the CURRENT input.
+   */
+  const photoInput = document.getElementById('reportPhotoInput');
+
   if (photoInput && !photoInput.dataset.listenerAttached) {
     photoInput.dataset.listenerAttached = 'true';
     photoInput.addEventListener('change', handleReportPhoto);
