@@ -486,45 +486,61 @@ function attachObserveHandlers() {
   const content = modal.querySelector('.modal-content');
   if (!content) return;
 
-  if (content.dataset.observeHandlersAttached === 'true') return;
-  content.dataset.observeHandlersAttached = 'true';
+  /*
+   * Attach the main delegated click handler only once.
+   * The modal content itself survives re-renders.
+   */
+  if (content.dataset.observeHandlersAttached !== 'true') {
+    content.dataset.observeHandlersAttached = 'true';
 
-  content.addEventListener('click', (e) => {
-    const fieldBtn = e.target.closest('[data-observe-field]');
-    if (fieldBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const field = fieldBtn.dataset.observeField;
-      const value = fieldBtn.dataset.observeValue;
-      observeState.data[field] = value;
-      renderObserveForm();
-      return;
-    }
+    content.addEventListener('click', (e) => {
+      const fieldBtn = e.target.closest('[data-observe-field]');
+      if (fieldBtn) {
+        e.preventDefault();
+        e.stopPropagation();
 
-    const wildlifeBtn = e.target.closest('[data-observe-wildlife]');
-    if (wildlifeBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const val = wildlifeBtn.dataset.observeWildlife;
-      const arr = observeState.data.wildlife;
-      const idx = arr.indexOf(val);
-      if (idx === -1) arr.push(val);
-      else arr.splice(idx, 1);
-      renderObserveForm();
-      return;
-    }
+        const field = fieldBtn.dataset.observeField;
+        const value = fieldBtn.dataset.observeValue;
 
-    const photoRemoveBtn = e.target.closest('.observe-photo-remove');
-    if (photoRemoveBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      removeObservePhoto();
-      return;
-    }
-  });
+        observeState.data[field] = value;
+        renderObserveForm();
+        return;
+      }
 
-  /* Photo input — attach ONCE per render */
+      const wildlifeBtn = e.target.closest('[data-observe-wildlife]');
+      if (wildlifeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const val = wildlifeBtn.dataset.observeWildlife;
+        const arr = observeState.data.wildlife;
+        const idx = arr.indexOf(val);
+
+        if (idx === -1) arr.push(val);
+        else arr.splice(idx, 1);
+
+        renderObserveForm();
+        return;
+      }
+
+      const photoRemoveBtn = e.target.closest('.observe-photo-remove');
+      if (photoRemoveBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        removeObservePhoto();
+        return;
+      }
+    });
+  }
+
+  /*
+   * IMPORTANT:
+   * This input is recreated every time the form re-renders.
+   * Therefore we must check the CURRENT input on every render.
+   */
   const photoInput = document.getElementById('observePhotoInput');
+
   if (photoInput && !photoInput.dataset.listenerAttached) {
     photoInput.dataset.listenerAttached = 'true';
     photoInput.addEventListener('change', handleObservePhoto);
