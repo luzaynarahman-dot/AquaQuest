@@ -32,9 +32,9 @@ const PWA = {
   /* ============================================================ */
   async register() {
     try {
-      const registration = await navigator.serviceWorker.register('./sw.js', {
-        scope: './'
-      });
+      const registration = await navigator.serviceWorker.register('./service-worker.js', {
+  scope: './'
+});
 
       this.swRegistration = registration;
       console.log('[PWA] Service worker registered:', registration.scope);
