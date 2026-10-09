@@ -327,7 +327,7 @@ function renderAboutModal() {
       </div>
       
       <p style="text-align:center; font-size:11px; color:var(--pc-text-muted); margin-top:20px;">
-        Built for OneAquaHealth IEEE Global Hackathon 2026
+        AquaQuest · Citizen Science Platform
       </p>
   `;
 
