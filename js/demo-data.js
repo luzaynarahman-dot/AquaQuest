@@ -1,6 +1,6 @@
 /* ============================================================ */
 /* AQUAQUEST — DEMO DATA                                         */
-/* Rich dataset for OneAquaHealth hackathon                      */
+/* Rich dataset for AquaQuest                     */
 /* 11 users · 15 stories · 60+ comments · Full network           */
 /* ============================================================ */
 
